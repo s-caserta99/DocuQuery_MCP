@@ -89,15 +89,7 @@ Follow these steps carefully to configure and run the server.
 ### Step 1 — Clone or download the repository
 
 ```bash
-cd ~/Desktop
-git clone <repository-url> mcp-pdf
-cd mcp-pdf
-```
-
-Or if you received a zip file, extract it and navigate into the folder:
-
-```bash
-cd ~/Desktop/mcp-pdf
+git clone <repository-url> 
 ```
 
 ### Step 2 — Install dependencies
@@ -429,7 +421,7 @@ The FAISS index is **persisted to disk** in `vector_store/` — you do not need 
 ```
 AI Agent (Antigravity / Claude Code / etc.)
             |
-            | MCP Protocol (HTTP + SSE)
+            | MCP Protocol 
             |
     ┌───────────────┐
     │  FastMCP      │  server.py
