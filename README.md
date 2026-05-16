@@ -1,4 +1,4 @@
-# DocuQuery MCP — PDF Intelligence Server
+# DocuQuery MCP 
 
 > An MCP (Model Context Protocol) server that transforms how researchers, PhD students, and academics interact with scientific literature. Instead of manually reading through papers, DocuQuery MCP lets you ask questions, extract information, and build knowledge directly from your PDF documents through any AI agent that supports the MCP protocol.
 
@@ -61,8 +61,6 @@ mcp-pdf/
 │   │   ├── note.py                # Note
 │   │   ├── responses.py           # SummaryResponse, ServerStatusResponse, ErrorResponse
 │   │   └── search.py              # SearchResult, SemanticSearchResult
-│   ├── state/
-│   │   └── app_state.py           # AppState scaffold (reserved for future use)
 │   ├── utils/
 │   │   ├── errors.py              # DocumentNotFoundError, InvalidPDFError, NoteNotFoundError
 │   │   ├── helpers.py             # ensure_required_directories() — auto-creates folders
@@ -77,7 +75,6 @@ mcp-pdf/
 │   ├── faiss.index
 │   ├── documents.pkl
 │   └── indexed_documents.json
-├── tests/                         # Test suite (to be populated)
 ├── pyproject.toml                 # Project dependencies managed by uv
 ├── .env.example                   # Environment variable template
 └── README.md                      # This file
@@ -88,16 +85,6 @@ mcp-pdf/
 ## Setup and Installation
 
 Follow these steps carefully to configure and run the server.
-
-### Prerequisites
-
-Make sure you have the following installed on your machine:
-
-- **Python 3.11 or later** — check with `python3 --version`
-- **uv** (Python package manager) — install with:
-  ```bash
-  curl -LsSf https://astral.sh/uv/install.sh | sh
-  ```
 
 ### Step 1 — Clone or download the repository
 

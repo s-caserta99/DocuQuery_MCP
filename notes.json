@@ -1,9 +1,0 @@
-{
-  "Appunti vessels": {
-    "title": "Appunti vessels",
-    "content": "Riassunto di MRM-95-2384.pdf:\n\nTitolo: ASL 4D MRA Intracranial Vessel Segmentation With Deep Learning U-Nets\n\nObiettivo: Proporre l'architettura 4DST per la segmentazione dei vasi in 4D MRA basata su ASL, ottimizzando l'uso della memoria ed evitando strati convoluzionali 4D.\n\nPunti chiave:\n1. Architettura 4DST: Tre U-Net 3DST in parallelo con modulo di raffinamento ResDense.\n2. Dataset: 35 volontari sani e 5 pazienti con malformazioni arterovenose (AVM).\n3. Risultati: Miglior coefficiente Dice (0.876) e ottima sensibilità anche con basso segnale-rumore (SNR).\n4. Vantaggi: Riduzione dei tempi di pre-processing e maggiore precisione anatomica nei vasi distali.\n\nConclusione: L'approccio spazio-temporale di 4DST migliora significativamente la precisione diagnostica non invasiva per patologie cerebrovascolari.",
-    "document": "MRM-95-2384.pdf",
-    "created_at": "2026-05-03T14:16:30.407403",
-    "updated_at": "2026-05-03T14:16:30.407414"
-  }
-}
