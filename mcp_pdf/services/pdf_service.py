@@ -3,6 +3,7 @@ import fitz  # PyMuPDF
 
 from mcp_pdf.config.settings import settings
 from mcp_pdf.models.document import DocumentMetadata
+from mcp_pdf.utils.errors import DocumentNotFoundError, InvalidPDFError
 
 
 class PDFService:
@@ -20,7 +21,7 @@ class PDFService:
         document_path = self.documents_path / document_name
 
         if not document_path.exists():
-            raise FileNotFoundError(
+            raise DocumentNotFoundError(
                 f"Document '{document_name}' not found."
             )
 
@@ -29,24 +30,30 @@ class PDFService:
     def extract_text(self, document_name: str) -> str:
         """Extracts all text content from a PDF document."""
         document_path = self.get_document_path(document_name)
-        text = ""
-        
-        # Apertura del documento con PyMuPDF
-        with fitz.open(document_path) as pdf_document:
-            for page in pdf_document:
-                text += page.get_text()
-                
-        return text
+
+        try:
+            with fitz.open(document_path) as pdf_document:
+                return "".join(page.get_text() for page in pdf_document)
+        except fitz.FileDataError as e:
+            raise InvalidPDFError(
+                f"Document '{document_name}' is corrupted or not a valid PDF: {e}"
+            )
 
     def get_metadata(self, document_name: str) -> DocumentMetadata:
         """Extracts basic metadata from the PDF."""
         document_path = self.get_document_path(document_name)
-        
-        with fitz.open(document_path) as pdf_document:
-            meta = pdf_document.metadata
-            return DocumentMetadata(
-                filename=document_name,
-                title=meta.get("title", ""),
-                author=meta.get("author", ""),
-                pages=len(pdf_document)
+
+        try:
+            with fitz.open(document_path) as pdf_document:
+                meta = pdf_document.metadata
+                return DocumentMetadata(
+                    filename=document_name,
+                    pages=len(pdf_document),
+                    title=meta.get("title") or None,
+                    author=meta.get("author") or None,
+                    subject=meta.get("subject") or None,
+                )
+        except fitz.FileDataError as e:
+            raise InvalidPDFError(
+                f"Document '{document_name}' is corrupted or not a valid PDF: {e}"
             )
