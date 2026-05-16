@@ -5,7 +5,7 @@ class Settings(BaseSettings):
     """Application settings loaded from .env."""
 
     app_name: str = "DocuQuery MCP"
-    debug: bool = True
+    debug: bool = False
 
     documents_path: str = "./documents"
     vector_store_path: str = "./vector_store"
