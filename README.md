@@ -328,7 +328,7 @@ List all available documents
 Show me the metadata of nins-13-00097.pdf
 ```
 ```
-Extract the text from nins-13-00097.pdf without translating or modifying it
+Extract the abstract's text from nins-13-00097.pdf without translating or modifying it
 ```
 ```
 Extract all images from nins-13-00097.pdf
