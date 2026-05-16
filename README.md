@@ -65,16 +65,10 @@ mcp-pdf/
 │   │   ├── errors.py              # DocumentNotFoundError, InvalidPDFError, NoteNotFoundError
 │   │   ├── helpers.py             # ensure_required_directories() — auto-creates folders
 │   │   └── logger.py              # Centralized logging configuration
-│   └── storage/
-│       ├── repository.py          # Abstract DocumentRepository interface
-│       └── sqlite_repository.py   # SQLite implementation (reserved for future use)
 ├── documents/                     # Place your PDF files here
 ├── images/                        # Extracted images are saved here (auto-created)
 ├── notes/                         # Research notes saved as .txt files (auto-created)
 ├── vector_store/                  # FAISS index persisted here (auto-created)
-│   ├── faiss.index
-│   ├── documents.pkl
-│   └── indexed_documents.json
 ├── pyproject.toml                 # Project dependencies managed by uv
 ├── .env.example                   # Environment variable template
 └── README.md                      # This file
