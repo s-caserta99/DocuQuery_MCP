@@ -20,6 +20,8 @@ class Settings(BaseSettings):
 
     log_level: str = "INFO"
 
+    mcp_auth_token: str = ""          
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
