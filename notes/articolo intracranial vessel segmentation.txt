@@ -1,0 +1,15 @@
+title: articolo intracranial vessel segmentation
+document: MRM-95-2384.pdf
+created_at: 2026-05-16T15:22:21.082970
+updated_at: 2026-05-16T15:26:08.004846
+---
+Purpose: To propose a spatio-temporal U-Net based network (4DST) that exploits both spatial and dynamic information while avoiding memory-intensive 4D convolutional layers for ASL-based non-contrast enhanced 4-dimensional MR angiography (4D MRA) vessel segmentation.
+
+Methods: Pulsed ASL-based 4D MRA data were collected on 35 healthy volunteers and 5 arteriovenous malformation patients. Spatial only (2D, 3D) and spatio-temporal U-Net variations (including the proposed 4DST) were tested. Two recently developed methods, including feature-based isolation forest and BRAVE-Net, were used for comparison. Dice-Sørensen coefficient (DSC), center-line Dice (clDice), Hausdorff distance (HD), precision, accuracy, specificity, and sensitivity were calculated. Sensitivity was analyzed relative to SNR and arterial transit time (ATT) to explore detectability. From graph analysis, total vessel length, number of branches, and number of endpoints were reported.
+
+Results: 4DST achieved the best DSC, clDice, and HD (0.876 ± 0.03, 0.865 ± 0.02, 6.241 ± 0.95, respectively). 4DST outperformed all other models across the SNR range of 1 to 10 and arterial transit time range of 500 to 800 ms in sensitivity. Last, the 4DST segmentations yielded total lengths and the number of branch splits that more closely matched the ground truths compared to the other models.
+
+Conclusion: The proposed 4DST network architecture offers an overall improvement in 4D MRA vessel segmentation performance over the compared methods and provides the framework for an end-to-end trainable model for spatio-temporal datasets. Additionally, 4DST requires minimal pre/post-processing steps, rendering it an attractive solution for pulsed ASL-based 4D MRA vessel segmentation.
+
+Riassunto:
+Il documento descrive la rete neurale 4DST (Spatio-Temporal U-Net) per la segmentazione automatica dei vasi sanguigni in angiografie RM 4D. Testata su 35 volontari sani e 5 pazienti AVM, la rete 4DST ha superato i modelli 2D e 3D esistenti (DSC 0.876), dimostrando maggiore efficacia nel rilevare vasi con basso segnale e tempi di transito lunghi. Rappresenta una soluzione efficiente per l'analisi clinica non invasiva del sistema vascolare cerebrale.
