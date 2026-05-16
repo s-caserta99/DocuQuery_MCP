@@ -5,7 +5,9 @@ from pathlib import Path
 import faiss
 import numpy as np
 
-VECTOR_STORE_PATH = Path("./vector_store")
+from mcp_pdf.config.settings import settings
+
+VECTOR_STORE_PATH = Path(settings.vector_store_path)
 INDEX_FILE = VECTOR_STORE_PATH / "faiss.index"
 DOCUMENTS_FILE = VECTOR_STORE_PATH / "documents.pkl"
 INDEXED_FILE = VECTOR_STORE_PATH / "indexed_documents.json"
@@ -48,18 +50,25 @@ class VectorService:
         with open(INDEXED_FILE, "w", encoding="utf-8") as f:
             json.dump(indexed, f, indent=2)
 
-    def remove_document(self, chunks_to_remove: list[str]) -> int:
-        """Rebuild the FAISS index excluding chunks belonging to the removed document."""
-        chunks_to_remove_set = set(chunks_to_remove)
-        remaining = [d for d in self.documents if d["chunk"] not in chunks_to_remove_set]
+    def add_embeddings(self, embeddings, chunks: list[str], document_name: str) -> None:
+        """Add embeddings and corresponding chunks, then save to disk."""
+        embeddings = np.array(embeddings).astype("float32")
+        self.index.add(embeddings)
+        for chunk in chunks:
+            self.documents.append({"chunk": chunk, "document": document_name})
+        self._save()
+
+    def remove_document(self, document_name: str) -> int:
+        """Rebuild the FAISS index excluding all chunks belonging to the given document."""
+        remaining = [d for d in self.documents if d["document"] != document_name]
         removed_count = len(self.documents) - len(remaining)
 
         self.index = faiss.IndexFlatL2(self.dimension)
         self.documents = []
 
         if remaining:
-            texts = [d["chunk"] for d in remaining]
             from mcp_pdf.services.embedding_service import EmbeddingService
+            texts = [d["chunk"] for d in remaining]
             embeddings = EmbeddingService().generate_embeddings(texts)
             embeddings = np.array(embeddings).astype("float32")
             self.index.add(embeddings)
@@ -68,30 +77,17 @@ class VectorService:
         self._save()
         return removed_count
 
-    def add_embeddings(
-        self,
-        embeddings,
-        chunks: list[str],
-    ) -> None:
-        """Add embeddings and corresponding chunks, then save to disk."""
-        embeddings = np.array(embeddings).astype("float32")
-        self.index.add(embeddings)
-        for chunk in chunks:
-            self.documents.append({"chunk": chunk})
-        self._save()
-
-    def search(self, embedding, top_k: int = 3):
+    def search(self, embedding, top_k: int = 3) -> list[dict]:
         """Perform semantic similarity search."""
         embedding = np.array([embedding]).astype("float32")
         distances, indices = self.index.search(embedding, top_k)
 
-        results = []
-        for idx, distance in zip(indices[0], distances[0]):
-            if idx < len(self.documents):
-                results.append(
-                    {
-                        "chunk": self.documents[idx]["chunk"],
-                        "distance": float(distance),
-                    }
-                )
-        return results
+        return [
+            {
+                "chunk": self.documents[idx]["chunk"],
+                "document": self.documents[idx]["document"],
+                "distance": float(distance),
+            }
+            for idx, distance in zip(indices[0], distances[0])
+            if idx < len(self.documents)
+        ]
